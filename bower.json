@@ -1,0 +1,25 @@
+{
+  "name": "computer-othello",
+  "devDependencies": {
+    "purescript-prelude": "^4.0.1",
+    "purescript-console": "^4.1.0",
+    "purescript-effect": "^2.0.0",
+    "purescript-psci-support": "^4.0.0",
+    "purescript-phinajs": "^0.1.7",
+    "purescript-arrays": "^5.0.0",
+    "purescript-foldable-traversable": "^4.0.0",
+    "purescript-maybe": "^4.0.0",
+    "purescript-random": "^4.0.0",
+    "purescript-tailrec": "^4.0.0",
+    "purescript-tuples": "^5.0.0",
+    "purescript-signal": "^10.1.0",
+    "purescript-newtype": "^3.0.0",
+    "purescript-refs": "^4.1.0",
+    "purescript-aff": "^5.0.1",
+    "purescript-control": "^4.1.0",
+    "purescript-math": "^2.1.1",
+    "purescript-integers": "^4.0.0",
+    "purescript-ordered-collections": "^1.0.0"
+  },
+  "private": true
+}

@@ -1,0 +1,23 @@
+body {
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+
+    /* disable text select */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+
+    /* disable touch panning/zooming */
+    touch-action: none;
+}
+
+canvas {
+    margin: auto;
+
+    /* disable scaling interpolation */
+    /* image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated; */
+}

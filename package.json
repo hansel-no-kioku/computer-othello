@@ -1,0 +1,26 @@
+{
+  "name": "computer-othello",
+  "description": "",
+  "author": "hansel-no-kioku",
+  "license": "MIT",
+  "scripts": {
+    "install": "bower install",
+    "bower": "bower",
+    "pulp": "pulp",
+    "build": "run-s build:*",
+    "build:app": "pulp browserify -O -t ./js/app.js",
+    "build:worker": "pulp browserify -m \"Game.Computer.Anticipator.Server\" -O -t ./js/worker.js",
+    "watch": "watch --wait 10 \"npm run build\" ./src",
+    "clean": "rimraf ./output ./js/*.js"
+  },
+  "devDependencies": {
+    "bower": "^1.8.4",
+    "npm-run-all": "^4.1.3",
+    "pulp": "^12.3.0",
+    "purescript": "^0.12.0",
+    "rimraf": "^2.6.2",
+    "watch": "^1.0.2"
+  },
+  "private": true,
+  "dependencies": {}
+}
