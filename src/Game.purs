@@ -7,7 +7,7 @@ import Prelude
 import Effect (Effect)
 import Game.Config (config)
 import Game.Scenes (scenes)
-import Phina (enableStats, newGame, runGame)
+import Phina (newGame, runGame)
 
 game ∷ Effect Unit
-game = newGame config scenes >>= enableStats >>= runGame
+game = newGame config scenes >>= runGame
