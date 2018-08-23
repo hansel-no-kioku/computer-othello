@@ -8,5 +8,5 @@
 /.purs*
 /.psa*
 /package-lock.json
-/js/*.js
+# /js/*.js
 /.vscode
