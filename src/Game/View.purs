@@ -26,6 +26,7 @@ import Game.Scenes.Result (resultScene)
 import Game.Style (layout, style)
 import Game.View.Message as V
 import Game.View.Score (ScoreDisplay, addScoreDisplay, updateScoreDisplay)
+import Game.View.TurnAnimation (TurnAnimation, newTurnAnimation, setActive)
 import Math (sqrt)
 import Phina (CircleShape, DisplayScene, RectangleShape, addChild, addChildToB, animate, animateB, call, color, easeDefault, getCenterPos, getSize, getSpan, getUnit, launchAsync', make, newCircleShape, newGrid, newLabel, newRectangleShape, sec, setPosition, setPositionB, setPositionB', setSizeB, to, toDisplayElement, toParams)
 import Phina.Accessor (getWidth, setBackgroundColor)
@@ -37,7 +38,7 @@ type ViewState =
   { scene ∷ DisplayScene
   , stage ∷ RectangleShape
   , cells ∷ Matrix Cell
-  , turnAnimation ∷ Map Side {play ∷ Effect Unit, stop ∷ Effect Unit}
+  , turnAnimation ∷ Map Side TurnAnimation
   , scoreDisplay ∷ ScoreDisplay
   , players ∷ Map Side PlayerType
   }
@@ -103,7 +104,7 @@ stepReady players state = do
         pos ← liftEffect $ layout.mainScene.nameLabel side state.scene
         setPositionB pos
         addChildToB state.scene
-      style.turnAnimation label
+      newTurnAnimation label style.turnAnimation
 
 
 stepTurn
@@ -113,6 +114,7 @@ stepTurn
   → ViewState
   → Aff (Tuple (Maybe P.Msg) ViewState)
 stepTurn event board side state = do
+  liftEffect $ traverse_ (setActive false) state.turnAnimation
   state' ← updateView event board state
   liftEffect $ traverseWithIndex_ doTurnAnimation state.turnAnimation
   pure $ Tuple (Just $ P.Turn board side) state'
@@ -121,8 +123,8 @@ stepTurn event board side state = do
     updateView V.Move b s = updateBoard b s
     updateView V.Pass _ s = displayPass state $> s
 
-    doTurnAnimation side' tweener =
-      if side' == side then tweener.play else tweener.stop
+    doTurnAnimation side' turnAnimation =
+      when (side' == side) $ setActive true turnAnimation
 
 
 updateBoard ∷ Board → ViewState → Aff ViewState
@@ -203,7 +205,7 @@ stepFinish
   → ViewState
   → Aff (Tuple (Maybe P.Msg) ViewState)
 stepFinish exit board state = makeAff \f → do
-  traverse_ _.stop state.turnAnimation
+  traverse_ (setActive false) state.turnAnimation
 
   center ← getCenterPos state.scene
 

@@ -260,18 +260,12 @@ suggestAnimation side icon = ado
       wait (msec 250)
 
 
-turnAnimation ∷ Label → Effect {play ∷ Effect Unit, stop ∷ Effect Unit}
-turnAnimation label = ado
-  tweener ← addTween animation label
-  in  { play: void $ play tweener
-      , stop: stop tweener *> setProps {scaleX: 1.0} label $> unit
-      }
-
-  where
-    animation = do
-      setLoop true
-      to (toParams {scaleX: -1.0}) (msec 500) easeInOutSine
-      to (toParams {scaleX: 1.0}) (msec 500) easeInOutSine
+turnAnimation ∷ (Label → Effect Label) → Tween Label
+turnAnimation f = do
+    setLoop true
+    to (toParams {scaleX: -1.0}) (msec 500) easeInOutSine
+    to (toParams {scaleX: 1.0}) (msec 500) easeInOutSine
+    call f
 
 
 flipAnimation ∷ Number → Side → Effect Unit → Tween CircleShape
